@@ -95,3 +95,50 @@ export const LoginUserController = async (req: Request, res: Response) => {
 
     }
 }
+/** 
+ * @name logoutUserCotroller 
+ * @desc logout a user
+ * @access public 
+*/
+export const logoutUserController = async (req: Request, res: Response): Promise<Response> => {
+    try {
+        const token = req.cookies.token;
+        if (token) {
+            await tokenBlacklistModel.create({ token });
+            res.clearCookie("token");
+            return res.status(200).json({ masssage: "User logged out successfully" }
+
+            )
+
+        }
+        return res.status(200).json({ massage: " no token found" })
+    } catch (error) {
+        return res.status(500).json({ massage: "Internal Server Error" })
+    }
+};
+/***
+ * @name getMe controller 
+ * @desc get user profile 
+ * @access private 
+ */
+export const getMeController = async (req: any, res: Response): Promise<Response | void> => {
+    try {
+        req.user
+        const user = await userModel.findById(req.user?.id);
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        return res.status(200).json({
+            message: "User found",
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email
+            }
+        });
+    } catch (error: any) {
+        return res.status(500).json({ message: "Internal server error" });
+    }
+};
