@@ -12,13 +12,17 @@ const app: Application = express();
  * @route middle ware
  */
 app.use(express.json());
+app.use((req, _res, next) => {
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+    next();
+});
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors());
 /**
  * @route using all routes
  */
-app.use("/api/auth", authRouter)
+app.use("/api", authRouter)
 /**
  * @route test router
  */
