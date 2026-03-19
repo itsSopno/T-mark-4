@@ -1,20 +1,5 @@
 import { Schema, model, Document } from "mongoose";
-
-interface IKeyBoard extends Document {
-    name: string;
-    price: number;
-    image: string;
-    stock: number;
-    category: string;
-    brand: string;
-    switchType: string;
-    layout: string;
-    description: string;
-    isFeatured: boolean;
-
-}
-
-const keyboardSchema = new Schema<IKeyBoard>({
+const keyboardSchema = new Schema({
     name: {
         type: String,
         required: true,
@@ -38,12 +23,10 @@ const keyboardSchema = new Schema<IKeyBoard>({
     brand: {
         type: String,
         required: true,
-
     },
     switchType: {
         type: String,
         required: true,
-
     },
     layout: {
         type: String,
@@ -57,7 +40,7 @@ const keyboardSchema = new Schema<IKeyBoard>({
         type: Boolean,
         default: false,
     }
-})
-
-const keyboardModel = model<IKeyBoard>("keyboard", keyboardSchema);
+});
+const keyboardModel = model("keyboard", keyboardSchema);
 export default keyboardModel;
+//# sourceMappingURL=ketboard.model.js.map

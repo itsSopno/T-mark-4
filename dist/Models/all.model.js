@@ -1,15 +1,5 @@
 import { Document, model, Schema } from "mongoose";
-
-interface IProduct extends Document {
-    name: String,
-    price: Number,
-    image: String,
-    category: String,
-    description: String,
-    brand: String,
-    stock: String,
-}
-const ProductSchema = new Schema<IProduct>({
+const ProductSchema = new Schema({
     name: {
         type: String,
         require: true
@@ -38,7 +28,7 @@ const ProductSchema = new Schema<IProduct>({
         type: String,
         require: true
     }
-})
-
-const productModel = model<IProduct>("product", ProductSchema);
-export default productModel;    
+});
+const productModel = model("product", ProductSchema);
+export default productModel;
+//# sourceMappingURL=all.model.js.map

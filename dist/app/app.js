@@ -11,7 +11,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 // .env ফাইল কনফিগারেশন
 dotenv.config({ path: path.join(__dirname, '../../.env') });
-const PORT = process.env.PORT || 3000;
+const PORT = 10000;
 const startServer = async () => {
     try {
         // ডাটাবেস কানেকশন

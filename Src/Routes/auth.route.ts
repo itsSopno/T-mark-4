@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { registerUserController, LoginUserController, logoutUserController, getMeController, createKeyboardCollectionControler, getAllKeyboards, getSingleKeyboard } from "../Controllers/auth.controler.js";
+import { registerUserController, LoginUserController, logoutUserController, getMeController, createKeyboardCollectionControler, getAllKeyboards, getSingleKeyboard, CreateAllProductController, getAllProduct, getSingleProductController } from "../Controllers/auth.controler.js";
 import { authUser } from "../middleware/auth.middleware.js";
 
 const authRouter: Router = Router();
@@ -10,5 +10,9 @@ authRouter.get("/getMe", authUser, getMeController)
 authRouter.post("/createKeyboard", createKeyboardCollectionControler)
 authRouter.get("/getallkeyboard", getAllKeyboards)
 authRouter.get("/getsinglekeyboard/:id", getSingleKeyboard)
+authRouter.post("/allproduct", CreateAllProductController)
+authRouter.get("/allproduct", getAllProduct)
+authRouter.get("/allproduct/:id", getSingleProductController)
+
 
 export default authRouter;
