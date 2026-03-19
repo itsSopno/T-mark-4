@@ -5,6 +5,7 @@ import tokenBlacklistModel from "../Models/Blacklist.model.js";
 import keyboardModel from "../Models/ketboard.model.js";
 import jwt from "jsonwebtoken";
 import { type CustomRequest } from "../middleware/auth.middleware.js";
+import productModel from "../Models/all.model.js";
 
 /**
  * @name registerUserController
@@ -151,7 +152,7 @@ export const createKeyboardCollectionControler = async (req: Request, res: Respo
     try {
         const { name, price, image, stock, category, brand, switchType, layout, description, isFeatured } = req.body
         if (!name || !price || !image || !stock || !category || !brand || !switchType || !layout || !description || !isFeatured) {
-            return res.status(201).json({ massage: "please provid all the required field" })
+            return res.status(400).json({ message: "please provide all the required fields" })
         }
         const keyboard = await keyboardModel.create({
             name,
@@ -166,12 +167,12 @@ export const createKeyboardCollectionControler = async (req: Request, res: Respo
             isFeatured,
         })
         return res.status(201).json({
-            massage: "Successfull",
+            message: "Successful",
             keyboard
         })
 
     } catch (error: any) {
-        return res.status(500).json({ massage: "Internal Server Error", error: error.message })
+        return res.status(500).json({ message: "Internal Server Error", error: error.message })
     }
 }
 /**
@@ -207,3 +208,56 @@ export const getAllKeyboards = async (req: Request, res: Response): Promise<Resp
         return res.status(500).json({ message: "Error fetching keyboards", error: error.message });
     }
 };
+
+/**
+ * @name getSingleKeyboard
+ * @desc get a single keyboard
+ * @access public
+ */
+export const getSingleKeyboard = async (req: Request, res: Response): Promise<Response> => {
+    try {
+        const { id } = req.params;
+        const keyboard = await keyboardModel.findById(id);
+
+        if (!keyboard) {
+            return res.status(404).json({ message: "Keyboard not found" });
+        }
+
+        return res.status(200).json({
+            success: true,
+            keyboard
+        });
+    } catch (error: any) {
+        return res.status(500).json({ message: "Invalid ID or Server Error", error: error.message });
+    }
+};
+/**
+ * @name CreateAllProductController
+ * @desc for all product
+ * @access public
+ */
+
+export const CreateAllProductController = async (req: Request, res: Response) => {
+    try {
+        const { name, price, image, stock, description, category, brand, } = req.body
+        if (!name || !price || !image || !stock || !description || !category || !brand) {
+            return res.status(201).json({ massage: "Nothing posted" })
+        }
+        const product = await productModel.create({
+            name,
+            price,
+            stock,
+            image,
+            description,
+            brand,
+            category,
+
+        })
+        return res.status(201).json({
+            massage: "Product posted sucessfully"
+        })
+    }
+    catch (error: any) {
+        return res.status(500).json({ massage: "IT HAVE PROBLEM" })
+    }
+}
