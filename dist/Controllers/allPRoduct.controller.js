@@ -8,7 +8,7 @@ export const CreateAllProductController = async (req, res) => {
     try {
         const { name, price, image, stock, description, category, brand, } = req.body;
         if (!name || !price || !image || !stock || !description || !category || !brand) {
-            return res.status(201).json({ massage: "Nothing posted" });
+            return res.status(201).json({ message: "Nothing posted" });
         }
         const product = await productModel.create({
             name,
@@ -25,13 +25,13 @@ export const CreateAllProductController = async (req, res) => {
         });
     }
     catch (error) {
-        return res.status(500).json({ massage: "IT HAVE PROBLEM" });
+        return res.status(500).json({ message: "IT HAVE PROBLEM" });
     }
 };
 /**
  * @name getallProduct
  * @desc get all product from here
- * @acess public
+ * @access public
  */
 export const getAllProduct = async (req, res) => {
     try {
@@ -79,4 +79,4 @@ export const getSingleProductController = async (req, res) => {
         return res.status(500).json({ message: "Invalid ID or Server Error", error: error.message });
     }
 };
-//# sourceMappingURL=allPRoduct.controller.js.map
+//# sourceMappingURL=allProduct.controller.js.map

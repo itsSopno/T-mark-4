@@ -10,23 +10,23 @@ export interface IKeycaps extends Document {
 const keyCapsSchema = new Schema<IKeycaps>({
     name: {
         type: String,
-        require: true
+        required: true
     },
     image: {
         type: String,
-        require: true,
+        required: true,
     },
     description: {
         type: String,
-        require: true,
+        required: true,
     },
     price: {
         type: Number,
-        require: true,
+        required: true,
     },
     brand: {
         type: String,
-        require: true,
+        required: true,
     }
 })
 

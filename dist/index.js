@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import authRouter from './Routes/auth.route.js';
 import keyboardRouter from './Routes/keyboard.route.js';
 import keycapsRouter from './Routes/keycaps.route.js';
+import allproductRouter from './Routes/allproduct.route.js';
 // Configure dotenv
 dotenv.config();
 const app = express();
@@ -25,6 +26,7 @@ app.use(cors());
 app.use("/api", authRouter);
 app.use("/api/keyboard", keyboardRouter);
 app.use("/api/keycaps", keycapsRouter);
+app.use("/api/products", allproductRouter);
 /**
  * @route test router
  */

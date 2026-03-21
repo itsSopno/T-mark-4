@@ -36,7 +36,6 @@ export const registerUserController = async (req: Request, res: Response) => {
         }, process.env.JWT_SECRET as string, { expiresIn: "1d" })
         res.cookie("Token", token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
         })
         return res.status(201).json({
             message: "User Registered Successfully",

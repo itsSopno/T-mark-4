@@ -17,45 +17,46 @@ interface IKeyBoard extends Document {
 const keyboardSchema = new Schema<IKeyBoard>({
     name: {
         type: String,
-        required: true,
+        required: true
     },
     price: {
         type: Number,
         required: true,
+        default: 199
     },
     image: {
         type: String,
-        required: true,
+        required: true
     },
     stock: {
         type: Number,
-        required: true,
+        default: 100
     },
     category: {
         type: String,
         required: true,
+        default: "Keyboards"
     },
     brand: {
         type: String,
         required: true,
-
-    },
-    switchType: {
-        type: String,
-        required: true,
-
+        default: "Tech Gear"
     },
     layout: {
         type: String,
-        required: true,
+        default: "75%"
+    },
+    switchType: {
+        type: String,
+        default: "Mechanical"
     },
     description: {
         type: String,
-        required: true,
+        required: true
     },
     isFeatured: {
         type: Boolean,
-        default: false,
+        default: false
     }
 })
 

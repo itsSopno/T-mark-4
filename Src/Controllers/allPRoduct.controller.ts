@@ -11,7 +11,7 @@ export const CreateAllProductController = async (req: Request, res: Response) =>
     try {
         const { name, price, image, stock, description, category, brand, } = req.body
         if (!name || !price || !image || !stock || !description || !category || !brand) {
-            return res.status(201).json({ massage: "Nothing posted" })
+            return res.status(201).json({ message: "Nothing posted" })
         }
         const product = await productModel.create({
             name,
@@ -29,13 +29,13 @@ export const CreateAllProductController = async (req: Request, res: Response) =>
         })
     }
     catch (error: any) {
-        return res.status(500).json({ massage: "IT HAVE PROBLEM" })
+        return res.status(500).json({ message: "IT HAVE PROBLEM" })
     }
 }
 /**
  * @name getallProduct
  * @desc get all product from here 
- * @acess public
+ * @access public
  */
 
 export const getAllProduct = async (req: Request, res: Response): Promise<Response> => {

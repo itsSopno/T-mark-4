@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createKeycapsCollectionController, getAllKeyCapsCollectionController, getSingleKeycapController, updateKeycapController, deleteKeycapController } from "../Controllers/keycap.controler.js";
+import { createKeycapsCollectionController, getAllKeyCapsCollectionController, getSingleKeycapController, updateKeycapController, deleteKeycapController } from "../Controllers/keycap.controller.js";
 const keycapsRouter = Router();
 keycapsRouter.post("/", createKeycapsCollectionController);
 keycapsRouter.get("/", getAllKeyCapsCollectionController);

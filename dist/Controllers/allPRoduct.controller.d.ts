@@ -8,7 +8,7 @@ export declare const CreateAllProductController: (req: Request, res: Response) =
 /**
  * @name getallProduct
  * @desc get all product from here
- * @acess public
+ * @access public
  */
 export declare const getAllProduct: (req: Request, res: Response) => Promise<Response>;
 /**
@@ -17,4 +17,4 @@ export declare const getAllProduct: (req: Request, res: Response) => Promise<Res
  * @access Public
  */
 export declare const getSingleProductController: (req: Request, res: Response) => Promise<Response>;
-//# sourceMappingURL=allPRoduct.controller.d.ts.map
+//# sourceMappingURL=allProduct.controller.d.ts.map

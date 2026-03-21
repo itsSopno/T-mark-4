@@ -1,4 +1,4 @@
-import keyboardModel from "../Models/ketboard.model.js";
+import keyboardModel from "../Models/keyboard.model.js";
 /**
  * @name createKeyboardCollectionControler
  * @desc create keyboard collection
