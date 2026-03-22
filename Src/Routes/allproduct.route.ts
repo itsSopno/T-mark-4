@@ -5,6 +5,6 @@ const allproductRouter: Router = Router();
 
 allproductRouter.post("/create", CreateAllProductController)
 allproductRouter.get("/getall", getAllProduct)
-allproductRouter.get("/getSingle/:id", getSingleProductController)
+allproductRouter.get("/getall/:id", getSingleProductController)
 
 export default allproductRouter;
