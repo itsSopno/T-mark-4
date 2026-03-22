@@ -9,25 +9,34 @@ import productModel from "../Models/all.model.js";
 
 export const CreateAllProductController = async (req: Request, res: Response) => {
     try {
-        const { name, price, image, quantity, description, category } = req.body
-        if (!name || !price || !image || !quantity || !description || !category) {
-            return res.status(400).json({ message: "All fields are required" })
+        const products = Array.isArray(req.body) ? req.body : [req.body];
+
+        const processedProducts = products.map(p => ({
+            name: p.name,
+            price: p.price ?? 199, // Default price if missing
+            image: p.image,
+            quantity: p.quantity ?? 100, // Default stock if missing
+            category: p.category ?? "Keyboards",
+            description: p.description ?? "High-end tech peripheral.",
+        }));
+
+        // Basic validation
+        for (const p of processedProducts) {
+            if (!p.name || !p.image || !p.description) {
+                return res.status(400).json({ message: "Missing required fields (name, image, or description) in one or more items." })
+            }
         }
-        const product = await productModel.create({
-            name,
-            price,
-            image,
-            description,
-            category,
-            quantity: Number(quantity)
-        })
+
+        const keyboards = await productModel.insertMany(processedProducts);
+
         return res.status(201).json({
-            message: "Product posted successfully",
-            products: product
+            message: "Successful",
+            count: keyboards.length,
+            keyboards
         })
-    }
-    catch (error: any) {
-        return res.status(500).json({ message: "IT HAVE PROBLEM" })
+
+    } catch (error: any) {
+        return res.status(500).json({ message: "Internal Server Error", error: error.message })
     }
 }
 /**

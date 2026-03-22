@@ -3,8 +3,8 @@ import { CreateAllProductController, getAllProduct, getSingleProductController }
 
 const allproductRouter: Router = Router();
 
-allproductRouter.post("/", CreateAllProductController)
-allproductRouter.get("/", getAllProduct)
-allproductRouter.get("/:id", getSingleProductController)
+allproductRouter.post("/create", CreateAllProductController)
+allproductRouter.get("/getall", getAllProduct)
+allproductRouter.get("/getSingle/:id", getSingleProductController)
 
 export default allproductRouter;

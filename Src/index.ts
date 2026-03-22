@@ -31,7 +31,7 @@ app.use("/api", authRouter)
 app.use("/api/google", googleRouter)
 app.use("/api/keyboard", keyboardRouter)
 app.use("/api/keycaps", keycapsRouter)
-app.use("/api/products", allproductRouter)
+app.use("/api/all-products", allproductRouter)
 app.use("/api/payment", paymentRouter)
 /**
  * @route test router
