@@ -23,7 +23,7 @@ const ProductSchema = new Schema({
     quantity: {
         type: Number,
         required: true
-    }
+    },
 });
 const productModel = model("product", ProductSchema);
 export default productModel;

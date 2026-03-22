@@ -48,7 +48,7 @@ export const getAllProduct = async (req, res) => {
         return res.status(200).json({
             success: true,
             count: products.length,
-            products
+            products: products
         });
     }
     catch (error) {
