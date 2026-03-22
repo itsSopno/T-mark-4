@@ -3,7 +3,7 @@
   "scripts": {
     "start": "node dist/app/app.js",
     "build": "tsc",
-    "dev": "nodemon --exec tsx Src/app/app.ts"
+    "dev": "nodemon --ext ts,js --exec tsx Src/app/app.ts"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
