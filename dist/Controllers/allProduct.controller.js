@@ -7,7 +7,7 @@ import productModel from "../Models/all.model.js";
 export const CreateAllProductController = async (req, res) => {
     try {
         const { name, price, image, quantity, description, category } = req.body;
-        if (!name || price === undefined || !image || quantity === undefined || !description || !category) {
+        if (!name || !price || !image || !quantity || !description || !category) {
             return res.status(400).json({ message: "All fields are required" });
         }
         const product = await productModel.create({
@@ -16,7 +16,7 @@ export const CreateAllProductController = async (req, res) => {
             image,
             description,
             category,
-            quantity
+            quantity: Number(quantity)
         });
         return res.status(201).json({
             message: "Product posted successfully",

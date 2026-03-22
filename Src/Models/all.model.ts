@@ -6,7 +6,7 @@ interface IProduct extends Document {
     image: String,
     category: String,
     description: String,
-    quantity: String,
+    quantity: Number,
 }
 const ProductSchema = new Schema<IProduct>({
     name: {
