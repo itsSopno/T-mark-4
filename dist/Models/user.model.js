@@ -5,6 +5,10 @@ const userSchema = new Schema({
         unique: true,
         required: [true, "Name is required"]
     },
+    image: {
+        type: String,
+        required: true,
+    },
     email: {
         type: String,
         unique: true,

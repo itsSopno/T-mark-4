@@ -40,7 +40,7 @@ export const createTopProductController = async (req: Request, res: Response) =>
  * @desc get all top product controller
  * @route GET/api/
  */
-export const getAllTopProductController = async (req: Request, res: Response) => {
+export const getAllTopProductController = async (_req: Request, res: Response) => {
     try {
         const topProducts = await TopProduct.find();
         return res.status(200).json({

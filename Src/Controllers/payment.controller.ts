@@ -21,6 +21,28 @@ export const initiatePayment = async (req: Request, res: Response): Promise<any>
             paymentStatus: 'pending'
         });
 
+        // Forward to the external processing server
+        try {
+            const externalRes = await fetch("https://t-mark-4.vercel.app/api/payment/initiate", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    userEmail,
+                    userImage,
+                    items,
+                    totalAmount,
+                    transactionId
+                })
+            });
+            const externalData = await externalRes.json();
+            console.log("External payment API response:", externalData);
+        } catch (fetchErr) {
+            console.error("Failed to forward payment to external server:", fetchErr);
+            // Optionally decide if this should block the success response or proceed
+        }
+
         return res.status(201).json({
             success: true,
             message: "Payment initiated successfully",

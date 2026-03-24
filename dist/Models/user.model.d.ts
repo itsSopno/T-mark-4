@@ -2,6 +2,7 @@ import { Document, Model } from "mongoose";
 export interface IUser extends Document {
     name: string;
     email: string;
+    image: String;
     password: string;
     createdAt?: Date;
     updatedAt?: Date;
