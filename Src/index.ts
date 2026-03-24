@@ -8,6 +8,7 @@ import keycapsRouter from './Routes/keycaps.route.js';
 import allproductRouter from './Routes/allproduct.route.js';
 import paymentRouter from './Routes/payment.route.js';
 import googleRouter from './Routes/google.route.js';
+import TopRouter from './Routes/topRouter.js';
 
 // Configure dotenv
 dotenv.config();
@@ -33,6 +34,7 @@ app.use("/api/keyboard", keyboardRouter)
 app.use("/api/keycaps", keycapsRouter)
 app.use("/api/all-products", allproductRouter)
 app.use("/api/payment", paymentRouter)
+app.use("/api/top-products", TopRouter)
 /**
  * @route test router
  */
