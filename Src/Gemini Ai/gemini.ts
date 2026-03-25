@@ -7,7 +7,7 @@ export const getGenAI = () => new GoogleGenAI({
 export const testGemini = async () => {
     try {
         const response = await getGenAI().models.generateContent({
-             model: "gemini-2.5-flash",
+             model: "gemini-1.5-flash",
              contents: "Hello, how are you ?"
          });
          console.log("Gemini Response:", response.text);

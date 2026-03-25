@@ -33,7 +33,7 @@ export const geminiTestController = async (req: Request, res: Response) => {
         based only our product above , recommend the best matches.
         if the user ask about something not in the product List, say that we dont have it`;
         const response = await getGenAI().models.generateContent({
-            model: "gemini-2.5-flash",
+            model: "gemini-1.5-flash",
             contents: prompt,
 
         });
