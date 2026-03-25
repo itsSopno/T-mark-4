@@ -8,4 +8,11 @@ export declare const verifyPayment: (req: Request, res: Response) => Promise<any
  * @access Private
  */
 export declare const getPaymentdataController: (_req: Request, res: Response) => Promise<any>;
+/**
+ * @name AcceptPaymnet
+ * @desc accept payment from user and deliver product
+ * @route PUT/api/payment/accept/:id
+ * @access Private
+ */
+export declare const updatePaymentStatus: (req: Request, res: Response) => Promise<any>;
 //# sourceMappingURL=payment.controller.d.ts.map

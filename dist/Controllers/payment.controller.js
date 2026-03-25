@@ -91,4 +91,40 @@ export const getPaymentdataController = async (_req, res) => {
         return res.status(500).json({ success: false, message: "Server error during payment data fetch" });
     }
 };
+/**
+ * @name AcceptPaymnet
+ * @desc accept payment from user and deliver product
+ * @route PUT/api/payment/accept/:id
+ * @access Private
+ */
+export const updatePaymentStatus = async (req, res) => {
+    try {
+        const { id } = req.params; // URL theke payment ID niben
+        const { status } = req.body; // Body theke 'completed', 'rejected' etc niben
+        // 1. Validation check
+        const allowedStatuses = ['pending', 'completed', 'failed'];
+        if (!allowedStatuses.includes(status)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid status. Use: pending, completed, or rejected."
+            });
+        }
+        // 2. Database e status update kora
+        const updatedPayment = await PaymentModel.findByIdAndUpdate(id, { paymentStatus: status }, { new: true } // updated data-ti return korbe
+        );
+        if (!updatedPayment) {
+            return res.status(404).json({ success: false, message: "Payment record not found" });
+        }
+        // 3. Response pathano
+        return res.status(200).json({
+            success: true,
+            message: `Payment status updated to ${status}`,
+            data: updatedPayment
+        });
+    }
+    catch (error) {
+        console.error("Admin Update Error:", error);
+        return res.status(500).json({ success: false, message: "Server error during status update" });
+    }
+};
 //# sourceMappingURL=payment.controller.js.map

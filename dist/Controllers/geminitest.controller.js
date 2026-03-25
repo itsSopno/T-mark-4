@@ -1,4 +1,4 @@
-import { genAI } from "../Gemini Ai/gemini.js";
+import { getGenAI } from "../Gemini Ai/gemini.js";
 import AllProduct from '../Models/all.model.js';
 /**
  * @name create recommendationController
@@ -29,7 +29,7 @@ export const geminiTestController = async (req, res) => {
         
         based only our product above , recommend the best matches.
         if the user ask about something not in the product List, say that we dont have it`;
-        const response = await genAI.models.generateContent({
+        const response = await getGenAI().models.generateContent({
             model: "gemini-2.5-flash",
             contents: prompt,
         });

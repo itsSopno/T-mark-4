@@ -1,12 +1,10 @@
 import { GoogleGenAI } from "@google/genai";
-const geminkey = process.env.GEMINI_API;
-export const genAI = new GoogleGenAI({
-    apiKey: geminkey
+export const getGenAI = () => new GoogleGenAI({
+    apiKey: process.env.GEMINI_API
 });
-// A test function to verify it works without blocking server startup
 export const testGemini = async () => {
     try {
-        const response = await genAI.models.generateContent({
+        const response = await getGenAI().models.generateContent({
             model: "gemini-2.5-flash",
             contents: "Hello, how are you ?"
         });
@@ -16,5 +14,4 @@ export const testGemini = async () => {
         console.error("Gemini Error:", err);
     }
 };
-export default genAI;
 //# sourceMappingURL=gemini.js.map
