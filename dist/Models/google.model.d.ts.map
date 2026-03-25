@@ -1,1 +1,0 @@
-{"version":3,"file":"google.model.d.ts","sourceRoot":"","sources":["../../Src/Models/google.model.ts"],"names":[],"mappings":"AAAA,OAAO,EAAiB,KAAK,QAAQ,EAAE,MAAM,UAAU,CAAA;AAEvD,MAAM,WAAW,OAAQ,SAAQ,QAAQ;IACrC,QAAQ,EAAE,MAAM,CAAC;IACjB,KAAK,EAAE,MAAM,CAAC;IACd,IAAI,EAAE,MAAM,CAAC;IACb,KAAK,EAAE,MAAM,CAAC;CACjB;AAuBD,QAAA,MAAM,WAAW;;;;;;gBAAyC,CAAA;AAC1D,eAAe,WAAW,CAAA"}
