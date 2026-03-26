@@ -25,7 +25,14 @@ app.use((req, _res, next) => {
 });
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(cors());
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: false,
+}));
+// Handle preflight requests for all routes
+app.options('*', cors());
 /**
  * @route using all routes
  */
