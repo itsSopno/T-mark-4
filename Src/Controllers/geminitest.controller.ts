@@ -3,12 +3,10 @@ import { getGenAI } from "../Gemini Ai/gemini.js";
 import AllProduct from '../Models/all.model.js';
 
 /**
- * @name create recommendationController
- * @description this controller is used to create recommendation for the user
+ * @name geminiTestController
+ * @description This controller is used to provide AI-powered product recommendations
  * @route POST /api/gemini-test
  * @access private
- * @param req 
- * @param res 
  */
 export const geminiTestController = async (req: Request, res: Response) => {
     try {
@@ -17,8 +15,6 @@ export const geminiTestController = async (req: Request, res: Response) => {
         const productList = JSON.stringify(products.map((p: any) => ({
             name: p.name,
             price: p.price,
-            image: p.image,
-            category: p.category,
             description: p.description,
             quantity: p.quantity,
 
@@ -33,7 +29,7 @@ export const geminiTestController = async (req: Request, res: Response) => {
         based only our product above , recommend the best matches.
         if the user ask about something not in the product List, say that we dont have it`;
         const response = await getGenAI().models.generateContent({
-            model: "gemini-1.5-flash",
+            model: "gemini-2.5-flash",
             contents: prompt,
 
         });

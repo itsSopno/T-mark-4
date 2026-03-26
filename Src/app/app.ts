@@ -21,11 +21,11 @@ const startServer = async () => {
     try {
         // ডাটাবেস কানেকশন
         await connectDB();
-        
+
         app.listen(PORT, () => {
             console.log(`🚀 Server is running on port ${PORT}`);
         });
-        testGemini()
+        testGemini() // Disabled to conserve API quota
     } catch (error) {
         console.error("❌ Failed to start server:", error);
         process.exit(1);
