@@ -1,9 +1,11 @@
 import { Router } from "express";
 import { CreateAllProductController, getAllProduct, getSingleProductController } from "../Controllers/allProduct.controller.js";
+import { isAdmin } from "../middleware/post.middleware.js";
+import { authUser } from "../middleware/auth.middleware.js";
 
 const allproductRouter: Router = Router();
 
-allproductRouter.post("/create", CreateAllProductController)
+allproductRouter.post("/create", authUser, isAdmin, CreateAllProductController)
 allproductRouter.get("/getall", getAllProduct)
 allproductRouter.get("/getSingle/:id", getSingleProductController)
 
