@@ -157,11 +157,13 @@ export const paymentDeleteController = async (req: Request, res: Response): Prom
         const payment = await PaymentModel.findByIdAndDelete(id);
         if (!payment) {
             return res.status(404).json({
-                massage: "Payment data not found"
+                success: false,
+                message: "Payment data not found"
             })
         } else {
             return res.status(200).json({
-                masssage: "Payment deleted successfully",
+                success: true,
+                message: "Payment deleted successfully",
                 data: payment
             })
         }
