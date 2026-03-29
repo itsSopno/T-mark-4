@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import dotenv from 'dotenv';
 import app from "../index.js"
 import connectDB from '../Config/database.js';
-import { testGemini } from '../Gemini Ai/gemini.js';
+// import { testGemini } from '../Gemini Ai/gemini.js';
 // DNS সার্ভার সেটআপ
 dns.setServers(['8.8.8.8', '8.8.4.4']);
 

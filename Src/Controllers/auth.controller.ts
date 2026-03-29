@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import userModel from "../Models/user.model.js";
+import googleModel from "../Models/google.model.js";
 import tokenBlacklistModel from "../Models/Blacklist.model.js";
 import jwt from "jsonwebtoken";
 import { type CustomRequest } from "../middleware/auth.middleware.js";
@@ -148,7 +149,10 @@ export const getMeController = async (req: CustomRequest, res: Response): Promis
 export const optionalController = async (req: CustomRequest, res: Response): Promise<Response> => {
     try {
         const { address, phoneNumber } = req.body;
-        const user = await userModel.findById(req.user?.id);
+        let user: any = await userModel.findById(req.user?.id);
+        if (!user) {
+            user = await googleModel.findById(req.user?.id);
+        }
         if (!user) {
             return res.status(404).json({
                 message: "User not found"
