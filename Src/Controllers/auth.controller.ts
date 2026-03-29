@@ -122,7 +122,13 @@ export const logoutUserController = async (req: Request, res: Response): Promise
  */
 export const getMeController = async (req: CustomRequest, res: Response): Promise<Response | void> => {
     try {
-        const user = await userModel.findById(req.user?.id);
+        // Try local user first
+        let user: any = await userModel.findById(req.user?.id);
+
+        // Fallback to Google user if not found
+        if (!user) {
+            user = await googleModel.findById(req.user?.id);
+        }
 
         if (!user) {
             return res.status(404).json({ message: "User not found" });
@@ -133,7 +139,9 @@ export const getMeController = async (req: CustomRequest, res: Response): Promis
             user: {
                 id: user._id,
                 name: user.name,
-                email: user.email
+                email: user.email,
+                address: user.address || null,
+                phoneNumber: user.phoneNumber || null,
             }
         });
     } catch (error: any) {
