@@ -34,13 +34,11 @@ const userSchema: Schema<IUser> = new Schema({
     },
     address: {
         type: String,
-        required: [true, "Address is optional"]
+        required: false
     },
     phoneNumber: {
         type: Number,
-        required: [true,
-            "Phone Number is optional"
-        ]
+        required: false
     }
 
 }, {

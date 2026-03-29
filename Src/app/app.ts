@@ -25,7 +25,7 @@ const startServer = async () => {
         app.listen(PORT, () => {
             console.log(`🚀 Server is running on port ${PORT}`);
         });
-        testGemini() // Disabled to conserve API quota
+        // testGemini() // Disabled to conserve API quota
     } catch (error) {
         console.error("❌ Failed to start server:", error);
         process.exit(1);
