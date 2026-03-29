@@ -144,3 +144,29 @@ export const updatePaymentStatus = async (req: Request, res: Response): Promise<
         return res.status(500).json({ success: false, message: "Server error during status update" });
     }
 };
+
+/**
+ * @name paymentDeleteController
+ * @desc for delteing or canceling payment and order
+ * @route DELETE/api/payment/:id
+ * @acess Private;
+ */
+export const paymentDeleteController = async (req: Request, res: Response): Promise<any> => {
+    try {
+        const { id } = req.params;
+        const payment = await PaymentModel.findByIdAndDelete(id);
+        if (!payment) {
+            return res.status(404).json({
+                massage: "Payment data not found"
+            })
+        } else {
+            return res.status(200).json({
+                masssage: "Payment deleted successfully",
+                data: payment
+            })
+        }
+    } catch (error) {
+        console.error("Payment delete error:", error);
+        return res.status(500).json({ success: false, message: "Server error during payment deletion" });
+    }
+}
