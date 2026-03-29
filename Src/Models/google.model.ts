@@ -5,6 +5,8 @@ export interface IGoogle extends Document {
     email: string;
     name: string;
     image: string;
+    address: string;
+    phoneNumber: Number;
 }
 
 const googleSchema: Schema<IGoogle> = new Schema({
@@ -25,6 +27,15 @@ const googleSchema: Schema<IGoogle> = new Schema({
     image: {
         type: String,
         required: true,
+    },
+    address: {
+        type: String,
+        required: false,
+
+    },
+    phoneNumber: {
+        type: Number,
+        required: false
     }
 })
 

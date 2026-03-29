@@ -139,3 +139,39 @@ export const getMeController = async (req: CustomRequest, res: Response): Promis
         return res.status(500).json({ message: "Internal server error" });
     }
 };
+/**
+ * @name optionalController
+ * @desc by this user can upload their address and PhoneNumber for optional details
+ * @route PUT/api/auth/optional
+ * @access Private
+ */
+export const optionalController = async (req: CustomRequest, res: Response): Promise<Response> => {
+    try {
+        const { address, phoneNumber } = req.body;
+        const user = await userModel.findById(req.user?.id);
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
+        if (address) user.address = address;
+        if (phoneNumber) user.phoneNumber = phoneNumber;
+        await user.save();
+
+        return res.status(200).json({
+            message: "Profile updated successfully",
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                address: user.address,
+                phoneNumber: user.phoneNumber
+            }
+        });
+    } catch (error: any) {
+        return res.status(500).json({
+            message: "Internal Server Error",
+            error: error.message
+        });
+    }
+};
