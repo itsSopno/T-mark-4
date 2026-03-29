@@ -90,3 +90,37 @@ export const getSingleProductController = async (req: Request, res: Response): P
         return res.status(500).json({ message: "Invalid ID or Server Error", error: error.message });
     }
 };
+
+/**
+ * @name changeProductController
+ * @desc for changing any product
+ * @route PUT/api/product/:id
+ * @access private
+ */
+
+export const changeProductController = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const { name, price, image, quantity, category, description } = req.body;
+        const product = await productModel.findById(id);
+        if (!product) {
+            return res.status(404).json({ massage: "Product not found" })
+        }
+        product.name = name || product.name;
+        product.price = price || product.price;
+        product.image = image || product.image;
+        product.quantity = quantity || product.quantity;
+        product.category = category || product.category;
+        product.description = description || product.description;
+        await product.save();
+        return res.status(200).json({
+            success: true,
+            message: "Product updated successfully",
+            product
+        })
+    }
+    catch (error: any) {
+        return res.status(500).json({ message: "Internal Server Error", error: error.message })
+    }
+}
+
