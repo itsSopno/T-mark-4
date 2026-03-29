@@ -1,7 +1,7 @@
 import type { Request, Response } from "express"
 import googleModel from "../Models/google.model.js"
 import jwt from "jsonwebtoken"
-
+import { type CustomRequest } from "../middleware/auth.middleware.js";
 /**
  * @name GoogleRegesterController
  * @desc post google Regester data, It will work for both regester and login
@@ -112,5 +112,42 @@ export const LogoutController = async (_req: Request, res: Response): Promise<Re
         });
     } catch (error) {
         res.status(500).json({ message: "Logout failed" });
+    }
+};
+
+/**
+ * @name optionalController
+ * @desc user can update address and phone number
+ * @route PUT/api/auth/optional
+ * @access Private
+ */
+export const optionalController = async (req: CustomRequest, res: Response): Promise<Response> => {
+    try {
+        const { address, phoneNumber } = req.body;
+        const user = await googleModel.findById(req.user?.id);
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
+        if (address) user.address = address;
+        if (phoneNumber) user.phoneNumber = phoneNumber;
+        await user.save();
+
+        return res.status(200).json({
+            message: "Profile updated successfully",
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                address: user.address,
+                phoneNumber: user.phoneNumber
+            }
+        });
+    } catch (error: any) {
+        return res.status(500).json({
+            message: "Internal Server Error",
+            error: error.message
+        });
     }
 };
