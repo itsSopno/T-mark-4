@@ -1,10 +1,12 @@
 import dns from 'node:dns';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createServer } from 'node:http';
 import dotenv from 'dotenv';
 import app from "../index.js"
 import connectDB from '../Config/database.js';
-// import { testGemini } from '../Gemini Ai/gemini.js';
+import { initSocket } from '../Socket/socketManager.js';
+
 // DNS সার্ভার সেটআপ
 dns.setServers(['8.8.8.8', '8.8.4.4']);
 
@@ -17,15 +19,17 @@ dotenv.config({ path: path.join(__dirname, '../../.env') });
 
 const PORT = process.env.PORT || 10000;
 
+const server = createServer(app);
+initSocket(server);
+
 const startServer = async () => {
     try {
         // ডাটাবেস কানেকশন
         await connectDB();
 
-        app.listen(PORT, () => {
+        server.listen(PORT, () => {
             console.log(`🚀 Server is running on port ${PORT}`);
         });
-        // testGemini() // Disabled to conserve API quota
     } catch (error) {
         console.error("❌ Failed to start server:", error);
         process.exit(1);

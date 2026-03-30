@@ -10,34 +10,22 @@ import UserDataModel from "../Models/userdata.model.js";
 
 export const CreateUserDataModel = async (req: Request, res: Response) => {
     try {
-        const { name, email, phoneNumber, address, Bio, image } = req.body;
-        if (!name || !email || !phoneNumber || !address || !Bio || !image) {
-            return res.status(400).json({
-                success: false,
-                message: "All fields are required"
-            });
+        const userData = req.body;
+        if (userData.email) {
+            const existingUser = await UserDataModel.findOne({ email: userData.email });
+            if (existingUser) {
+                return res.status(409).json({
+                    success: false,
+                    message: "User already exists with this email"
+                });
+            }
         }
-        const existingUser = await UserDataModel.findOne({ email });
-        if (existingUser) {
-            return res.status(409).json({
-                success: false,
-                message: "User already exists with this email"
-            });
-        }
-        const newUser = await UserDataModel.create({
-            name,
-            email,
-            phoneNumber,
-            address,
-            Bio,
-            image,
-        });
+        const newUser = await UserDataModel.create(userData);
         return res.status(201).json({
             success: true,
-            message: "User data saved successfully",
+            message: "Data saved successfully",
             user: newUser
         });
-
     } catch (error) {
         console.error("Error in CreateUserDataModel:", error);
         return res.status(500).json({
@@ -48,33 +36,34 @@ export const CreateUserDataModel = async (req: Request, res: Response) => {
 };
 
 /**
- * @name getUserfullData
- * @desc get all user data
- * @route get/api/
- * @acess private
- * 
+ * @name getUserFullData
+ * @desc get user data by email
+ * @route GET /api/user/get/:email
+ * @access Public (No auth middleware found in route)
  */
 
 export const getUserFullData = async (req: Request, res: Response) => {
     try {
-        const email = req.body.email;
-        const user = await UserDataModel.findOne({ email });
+        const { email } = req.params;
+        
+        if (!email) {
+            return res.status(400).json({ success: false, message: "Email parameter is missing" });
+        }
+
+        const user = await UserDataModel.findOne({ email: String(email) });
+
         if (!user) {
             return res.status(404).json({
                 success: false,
                 message: "User not found"
-            })
+            });
         }
+
         return res.status(200).json({
             success: true,
-            message: "User data fetched successfully",
             user
-        })
+        });
     } catch (error) {
-        console.error("Error in getUserFullData:", error);
-        return res.status(500).json({
-            success: false,
-            message: "Internal Server Error"
-        })
+        return res.status(500).json({ success: false, message: "Internal Server Error" });
     }
-}
+};

@@ -12,6 +12,7 @@ import googleRouter from './Routes/google.route.js';
 import TopRouter from './Routes/topRouter.js';
 import geminiRouter from './Routes/gemini.route.js';
 import userRouter from './Routes/totalUser.route.js';
+import messageRouter from './Routes/message.route.js';
 // Configure dotenv
 dotenv.config();
 
@@ -52,6 +53,7 @@ app.use("/api/payment", paymentRouter)
 app.use("/api/top-products", TopRouter)
 app.use("/api/ai", geminiRouter)
 app.use("/api/user", userRouter)
+app.use("/api/messages", messageRouter)
 
 /**
  * @route test router

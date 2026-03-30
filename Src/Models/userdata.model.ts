@@ -1,7 +1,9 @@
 import { model, Schema, type Document } from "mongoose";
 
 export interface IUserData extends Document {
+    userId: String,
     name: String,
+    lastName: String,
     email: String,
     phoneNumber: Number,
     address: String,
@@ -11,7 +13,15 @@ export interface IUserData extends Document {
 }
 
 const UserDataSchema = new Schema<IUserData>({
+    userId: {
+        type: String,
+        required: true
+    },
     name: {
+        type: String,
+        required: true
+    },
+    lastName: {
         type: String,
         required: true
     },

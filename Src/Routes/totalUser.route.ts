@@ -4,6 +4,6 @@ import { CreateUserDataModel, getUserFullData } from '../Controllers/totalUser.c
 const router = Router()
 
 router.post('/create', CreateUserDataModel)
-router.get('/get', getUserFullData)
+router.get('/get/:email', getUserFullData)
 
 export default router
