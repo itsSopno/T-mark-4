@@ -97,3 +97,34 @@ export const updateUserData = async (req: Request, res: Response) => {
         return res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 };
+
+/**
+ * @name getEveryUserController
+ * @desc by using this controller , admin get every user data
+ * @route GET /api/user/get-every-user
+ * @access Public
+ */
+
+export const getAllUsersFullData = async (req: Request, res: Response) => {
+    try {
+        const users = await UserDataModel.find({});
+
+        if (!users || users.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "No users found"
+            });
+        }
+        return res.status(200).json({
+            success: true,
+            count: users.length,
+            users
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "Internal Server Error",
+            error: error instanceof Error ? error.message : "Unknown error"
+        });
+    }
+};
