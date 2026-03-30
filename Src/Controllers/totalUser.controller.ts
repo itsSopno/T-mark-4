@@ -45,23 +45,53 @@ export const CreateUserDataModel = async (req: Request, res: Response) => {
 export const getUserFullData = async (req: Request, res: Response) => {
     try {
         const { email } = req.params;
-        
+
         if (!email) {
             return res.status(400).json({ success: false, message: "Email parameter is missing" });
         }
 
         const user = await UserDataModel.findOne({ email: String(email) });
 
-        if (!user) {
+        if (!user)
             return res.status(404).json({
                 success: false,
                 message: "User not found"
             });
+        return res.status(200).json({
+            success: true,
+            user
+        });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: "Internal Server Error" });
+    }
+};
+
+/**
+ * @name editUserDataController
+ * @desc user can edit their data by using their email
+ * @route PUT/api/user/edit/:email
+ * @access public
+ */
+
+export const updateUserData = async (req: Request, res: Response) => {
+    try {
+        const { email } = req.params;
+        const updateData = req.body;
+
+        const updatedUser = await UserDataModel.findOneAndUpdate(
+            { email: String(email) },
+            { $set: updateData },
+            { new: true }
+        );
+
+        if (!updatedUser) {
+            return res.status(404).json({ success: false, message: "User not found" });
         }
 
         return res.status(200).json({
             success: true,
-            user
+            message: "User updated successfully",
+            user: updatedUser
         });
     } catch (error) {
         return res.status(500).json({ success: false, message: "Internal Server Error" });

@@ -17,7 +17,7 @@ const __dirname = path.dirname(__filename);
 // .env ফাইল কনফিগারেশন
 dotenv.config({ path: path.join(__dirname, '../../.env') });
 
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 10001;
 
 const server = createServer(app);
 initSocket(server);
