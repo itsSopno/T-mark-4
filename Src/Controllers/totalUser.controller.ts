@@ -105,7 +105,8 @@ export const updateUserData = async (req: Request, res: Response) => {
  * @access Public
  */
 
-export const getAllUsersFullData = async (req: Request, res: Response) => {
+// req এর পরিবর্তে _req ব্যবহার করুন
+export const getAllUsersFullData = async (_req: Request, res: Response) => {
     try {
         const users = await UserDataModel.find({});
 
