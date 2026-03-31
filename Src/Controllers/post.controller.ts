@@ -1,5 +1,6 @@
 import { type Request, type Response } from "express";
 import PostModel from "../Models/post.model.js";
+import { type CustomRequest } from "../middleware/auth.middleware.js";
 
 /**
  * @name CreatePost 
@@ -7,14 +8,30 @@ import PostModel from "../Models/post.model.js";
  * @route POST/api/post/create
  * @acess Public
  *  */
-export const createPost = async (req: Request, res: Response) => {
+export const createPost = async (req: CustomRequest, res: Response) => {
     try {
         const { author, content, images } = req.body;
 
+        // Enhanced Validation
+        if (!content && (!images || images.length === 0)) {
+            return res.status(400).json({ success: false, message: "POST_EMPTY: Broadcast requires content or media" });
+        }
+
+        if (!author || !author.email || !author.userID) {
+            return res.status(400).json({ success: false, message: "AUTHOR_IDENTITY_MISSING: Authentication node broken" });
+        }
+
         const newPost = await PostModel.create({
-            author,
-            content,
+            author: {
+                userID: author.userID,
+                email: author.email,
+                username: author.username || "Anonymous_Node",
+            },
+            userEmail: author.email,
+            content: content || "",
             images: images || [],
+            likes: [],
+            comments: []
         });
 
         return res.status(201).json({
@@ -23,6 +40,92 @@ export const createPost = async (req: Request, res: Response) => {
             post: newPost
         });
     } catch (error) {
+        console.error("Error in createPost:", error);
+        return res.status(500).json({ success: false, message: "Internal Server Error" });
+    }
+};
+
+/**
+ * @name LikePost/UnlikePost 
+ * @desc Toggle like for a post
+ * @route PATCH/api/post/:id/like
+ * @acess Private
+ */
+export const toggleLike = async (req: CustomRequest, res: Response) => {
+    try {
+        const { id } = req.params;
+        const { userID } = req.body; // or req.user.id if using auth middleware strictly
+
+        if (!userID) {
+            return res.status(400).json({ success: false, message: "USER_IDENTITY_REQUIRED: Pulse sync failed" });
+        }
+
+        const post = await PostModel.findById(id);
+        if (!post) {
+            return res.status(404).json({ success: false, message: "POST_NOT_FOUND: Node missing from stream" });
+        }
+
+        const likeIndex = post.likes.indexOf(userID);
+        if (likeIndex === -1) {
+            // Like
+            post.likes.push(userID);
+        } else {
+            // Unlike
+            post.likes.splice(likeIndex, 1);
+        }
+
+        await post.save();
+
+        return res.status(200).json({
+            success: true,
+            message: likeIndex === -1 ? "HEARTBEAT_SYNCED" : "HEARTBEAT_DISCONNECTED",
+            likes: post.likes
+        });
+    } catch (error) {
+        console.error("Error in toggleLike:", error);
+        return res.status(500).json({ success: false, message: "Internal Server Error" });
+    }
+};
+
+/**
+ * @name AddComment 
+ * @desc Push a comment into the post stream
+ * @route POST/api/post/:id/comment
+ * @acess Private
+ */
+export const addComment = async (req: CustomRequest, res: Response) => {
+    try {
+        const { id } = req.params;
+        const { userID, email, username, image, comment } = req.body;
+
+        if (!comment || !userID || !email) {
+            return res.status(400).json({ success: false, message: "MALFORMED_INPUT: Data packet incomplete" });
+        }
+
+        const post = await PostModel.findById(id);
+        if (!post) {
+            return res.status(404).json({ success: false, message: "POST_NOT_FOUND: Destination unreachable" });
+        }
+
+        post.comments.push({
+            userID,
+            email,
+            username: username || "Anonymous",
+            image,
+            comment,
+            createdAt: new Date(),
+            updatedAt: new Date()
+        });
+
+        await post.save();
+
+        return res.status(200).json({
+            success: true,
+            message: "DATA_INJECTED: Comment added to stream",
+            comment: post.comments[post.comments.length - 1]
+        });
+    } catch (error) {
+        console.error("Error in addComment:", error);
         return res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 };

@@ -28,6 +28,7 @@ export interface IPost extends Document {
         createdAt: Date;
         updatedAt: Date;
     }[];
+    likes: string[];
     createdAt: Date;
     updatedAt: Date;
 }
@@ -54,6 +55,10 @@ const PostSchema = new Schema<IPost>(
             default: [],
         },
         comments: [CommentSchema],
+        likes: {
+            type: [String],
+            default: [],
+        },
     },
     {
         timestamps: true,

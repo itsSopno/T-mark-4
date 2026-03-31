@@ -33,10 +33,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use(cors({
-    origin: '*',
+    origin: ['http://localhost:3000', 'https://e-shop-4qgh.vercel.app'], // Include your production domain
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: false,
+    credentials: true,
 }));
 
 // Handle preflight requests for all routes

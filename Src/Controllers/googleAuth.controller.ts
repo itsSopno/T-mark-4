@@ -38,7 +38,7 @@ export const GoogleAuthController = async (req: Request, res: Response) => {
         );
 
 
-        res.cookie("Token", token, {
+        res.cookie("token", token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             sameSite: "none",
@@ -100,7 +100,7 @@ export const getMe = async (req: Request, res: Response): Promise<Response | voi
  */
 export const LogoutController = async (_req: Request, res: Response): Promise<Response | void> => {
     try {
-        res.clearCookie("Token", {
+        res.clearCookie("token", {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             sameSite: "none"
