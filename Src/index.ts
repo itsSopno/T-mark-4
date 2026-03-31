@@ -19,28 +19,22 @@ dotenv.config();
 
 const app: Application = express();
 
-/**
- * @route middle ware
- */
+app.use(cors({
+    origin: (_origin, callback) => callback(null, true),
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'X-Requested-With', 'cache-control', 'remember-me'],
+    credentials: true,
+    optionsSuccessStatus: 200
+}));
+
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.use((req, _res, next) => {
     console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
     next();
 });
-
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
-
-app.use(cors({
-    origin: ['http://localhost:3000', 'https://e-shop-4qgh.vercel.app'], // Include your production domain
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true,
-}));
-
-// Handle preflight requests for all routes
-app.options('/{*any}', cors());
 
 /**
  * @route using all routes

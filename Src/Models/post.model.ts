@@ -15,6 +15,7 @@ export interface IPost extends Document {
         userID: string;
         email: string;
         username: string;
+        userImage: string;
     };
     userEmail: string;
     content: string;
@@ -39,6 +40,7 @@ const PostSchema = new Schema<IPost>(
             userID: { type: String, required: true },
             email: { type: String, required: true },
             username: { type: String, required: true },
+            userImage: { type: String, required: true },
         },
         userEmail: {
             type: String,

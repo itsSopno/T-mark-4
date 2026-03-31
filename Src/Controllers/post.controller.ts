@@ -26,6 +26,7 @@ export const createPost = async (req: CustomRequest, res: Response) => {
                 userID: author.userID,
                 email: author.email,
                 username: author.username || "Anonymous_Node",
+                userImage: author.userImage || "",
             },
             userEmail: author.email,
             content: content || "",
