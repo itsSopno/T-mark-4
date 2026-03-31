@@ -1,5 +1,5 @@
 import { Server, Socket } from "socket.io";
-import { MessageModel } from "../Models/massage.model.js";
+import { MessageModel } from "../Models/message.model.js";
 
 // Map to store online users: userId -> socketId
 const onlineUsers = new Map<string, string>();

@@ -10,7 +10,6 @@ export interface IMessage extends Document {
     updatedAt: Date;
 }
 
-
 const MessageSchema = new Schema<IMessage>(
     {
         senderId: {
@@ -30,7 +29,7 @@ const MessageSchema = new Schema<IMessage>(
         },
         image: {
             type: String,
-            required: true,
+            default: "",
         },
         isRead: {
             type: Boolean,
@@ -41,7 +40,6 @@ const MessageSchema = new Schema<IMessage>(
         timestamps: true,
     }
 );
-
 
 MessageSchema.index({ senderId: 1, receiverId: 1, createdAt: -1 });
 

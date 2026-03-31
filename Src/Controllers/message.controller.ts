@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { MessageModel } from "../Models/massage.model.js";
+import { MessageModel } from "../Models/message.model.js";
 import UserDataModel from "../Models/userdata.model.js";
 
 /**
@@ -67,12 +67,20 @@ export const getRecentChats = async (req: Request, res: Response) => {
             }
         ]);
 
-        // Enrich with user data (optional but recommended)
+        // Enrich with user data using email lookup
         const enrichedChats = await Promise.all(recentMessages.map(async (chat) => {
-            const userData = await UserDataModel.findOne({ userId: chat._id });
+            const userData = await UserDataModel.findOne({ email: chat._id });
             return {
                 ...chat,
-                user: userData || { name: "Unknown User", image: null }
+                user: userData ? {
+                    name: userData.name + " " + userData.lastName,
+                    image: userData.image,
+                    email: userData.email
+                } : {
+                    name: "Unknown User",
+                    image: null,
+                    email: chat._id
+                }
             };
         }));
 
@@ -93,7 +101,7 @@ export const getRecentChats = async (req: Request, res: Response) => {
 export const sendMessageREST = async (req: Request, res: Response) => {
     try {
         const { senderId, receiverId, message, image } = req.body;
-        
+
         if (!senderId || !receiverId || !message) {
             return res.status(400).json({ success: false, message: "Missing required fields" });
         }
@@ -102,7 +110,7 @@ export const sendMessageREST = async (req: Request, res: Response) => {
             senderId,
             receiverId,
             message,
-            image: image || "" 
+            image: image || ""
         });
 
         return res.status(201).json({
