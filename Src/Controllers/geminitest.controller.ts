@@ -19,15 +19,12 @@ export const geminiTestController = async (req: Request, res: Response) => {
             quantity: p.quantity,
 
         })))
-        const prompt = `You are a helpful E-Commerce assistant.
-        Here is the list of products available in our store:
-        ${productList}
-        
-        Now answer the user's question based on this product list:
-        ${userPrompt}
-        
-        based only our product above , recommend the best matches.
-        if the user ask about something not in the product List, say that we dont have it`;
+        const prompt = `You are a helpful E-Commerce assistant. 
+Our available products: ${productList}
+
+User Input: "${userPrompt}"
+
+Reply naturally. If it's a greeting, greet back. If they ask about products, recommend from the available list. If asked about something we don't have, politely inform them it's unavailable. Keep it concise.`;
         const response = await getGenAI().models.generateContent({
             model: "gemini-2.5-flash",
             contents: prompt,
