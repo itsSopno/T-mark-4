@@ -9,6 +9,8 @@ export interface IUserData extends Document {
     address: String,
     image: String,
     Bio: String,
+    googleId:String,
+    coverImage:String,
 
 }
 
@@ -44,6 +46,14 @@ const UserDataSchema = new Schema<IUserData>({
     Bio: {
         type: String,
         required: true
+    },
+    googleId: {
+        type: String,
+        required: false
+    },
+    coverImage: {
+        type: String,
+        required: false
     }
 })
 
