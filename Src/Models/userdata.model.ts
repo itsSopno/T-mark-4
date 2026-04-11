@@ -27,18 +27,27 @@ export interface IUserData extends Document {
         privacy:{
             profileVisibility:"public",
             messageRequests:true,
-            whoCanSeeMyPosts:"everyone",
-            whoCanSeeMyProfile:"everyone",
-            whoCanSeeMyEmail:"everyone",
-            whoCanSeeMyPhoneNumber:"everyone",
-            whoCanSeeMyAddress:"everyone",
-            whoCanSeeMyBio:"everyone",
-            whoCanSeeMyGoogleId:"everyone",
-            whoCanSeeMyCoverImage:"everyone",
-            whoCanSeeMyIsVerified:"everyone",
-            whoCanSeeMySettings:"everyone",
+          
         }
        }
+    },
+    friends:{
+        type:[string],
+        default:[],
+    },
+    friendRequests:{
+        from : [string],
+        status:{
+            type:string,
+            enum:['pending','accepted','rejected'],
+            default:'pending'
+        }
+    },
+    createdAt:{
+        type:Date,
+    },
+    updatedAt:{
+        type:Date,
     }
 
 }
@@ -87,6 +96,14 @@ const UserDataSchema = new Schema<IUserData>({
     isVerified:{
         type:Boolean,
         default:false
+    },
+    createdAt:{
+        type:Date,
+        default:Date.now()
+    },
+    updatedAt:{
+        type:Date,
+        default:Date.now()
     }
 })
 
