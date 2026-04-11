@@ -7,9 +7,11 @@ const onlineUsers = new Map<string, string>();
 export const initSocket = (server: any) => {
     const io = new Server(server, {
         cors: {
-            origin: "*", // Adjust this for production
-            methods: ["GET", "POST"]
-        }
+            origin: (_origin, callback) => callback(null, true), // Enhanced flexibility for local dev
+            methods: ["GET", "POST"],
+            credentials: true
+        },
+        transports: ['websocket', 'polling'] // Allow fallback for better stability
     });
 
     console.log("⚓ Socket.io Initialized");

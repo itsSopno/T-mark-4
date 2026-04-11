@@ -69,15 +69,21 @@ export const acceptFriendRequest = async (req: Request, res: Response): Promise<
             return res.status(404).json({ success: false, message: "User not found." });
         }
 
-        // 1. Remove from pending requests
-        user.friendRequests = user.friendRequests.filter(req => req.from !== senderEmail);
+        // 1. Remove from pending requests of the receiver
+        await UserDataModel.findOneAndUpdate(
+            { email: userEmail },
+            { $pull: { friendRequests: { from: senderEmail } } }
+        );
 
-        // 2. Add to mutual friends list
-        if (!user.friends.includes(senderEmail)) user.friends.push(senderEmail);
-        if (!sender.friends.includes(userEmail)) sender.friends.push(userEmail);
-
-        await user.save();
-        await sender.save();
+        // 2. Add mutually to friends list using $addToSet to avoid duplicates
+        await UserDataModel.findOneAndUpdate(
+            { email: userEmail },
+            { $addToSet: { friends: senderEmail } }
+        );
+        await UserDataModel.findOneAndUpdate(
+            { email: senderEmail },
+            { $addToSet: { friends: userEmail } }
+        );
 
         // 3. Notify sender that request was accepted
         await NotificationModel.create({
@@ -88,7 +94,7 @@ export const acceptFriendRequest = async (req: Request, res: Response): Promise<
             content: `${user.name} accepted your friend request.`
         });
 
-        return res.status(200).json({ success: true, message: "Friend request accepted.", friends: user.friends });
+        return res.status(200).json({ success: true, message: "Friend request accepted." });
 
     } catch (error: any) {
         console.error("Error accepting friend request:", error);
@@ -100,11 +106,11 @@ export const acceptFriendRequest = async (req: Request, res: Response): Promise<
 export const rejectFriendRequest = async (req: Request, res: Response): Promise<Response> => {
     try {
         const { userEmail, senderEmail } = req.body;
-        const user = await UserDataModel.findOne({ email: userEmail });
-        if (!user) return res.status(404).json({ success: false, message: "User not found." });
-
-        user.friendRequests = user.friendRequests.filter(req => req.from !== senderEmail);
-        await user.save();
+        
+        await UserDataModel.findOneAndUpdate(
+            { email: userEmail },
+            { $pull: { friendRequests: { from: senderEmail } } }
+        );
 
         return res.status(200).json({ success: true, message: "Friend request rejected." });
     } catch (error: any) {
@@ -116,14 +122,16 @@ export const rejectFriendRequest = async (req: Request, res: Response): Promise<
 export const unfriend = async (req: Request, res: Response): Promise<Response> => {
     try {
         const { userEmail, friendEmail } = req.body;
-        const user = await UserDataModel.findOne({ email: userEmail });
-        const friend = await UserDataModel.findOne({ email: friendEmail });
 
-        if (user) user.friends = user.friends.filter(email => email !== friendEmail);
-        if (friend) friend.friends = friend.friends.filter(email => email !== userEmail);
-
-        await user?.save();
-        await friend?.save();
+        // Perform mutual removal
+        await UserDataModel.findOneAndUpdate(
+            { email: userEmail },
+            { $pull: { friends: friendEmail } }
+        );
+        await UserDataModel.findOneAndUpdate(
+            { email: friendEmail },
+            { $pull: { friends: userEmail } }
+        );
 
         return res.status(200).json({ success: true, message: "Unfriended successfully." });
     } catch (error: any) {
