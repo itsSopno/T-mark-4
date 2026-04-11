@@ -88,15 +88,15 @@ const UserDataSchema = new Schema<IUserData>(
             default: false
         },
         settings: {
-            theme: { type: String, default: "dark" },
+            theme: { type: String, enum: ["dark", "light"], default: "dark" },
             notifications: {
                 email: { type: Boolean, default: true },
                 push: { type: Boolean, default: true },
                 sms: { type: Boolean, default: true }
             },
             privacy: {
-                profileVisibility: { type: String, default: "public" },
-                messageRequests: { type: Boolean, default: true }
+                profileVisibility: { type: String, enum: ["public", "private"], default: "public" },
+                messageRequests: { type: String, enum: ["public", "private"], default: "public" }
             }
         },
         friends: {
