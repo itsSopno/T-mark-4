@@ -37,6 +37,7 @@ app.use((req, _res, next) => {
 });
 
 import notificationRouter from './Routes/notification.route.js';
+import friendRouter from './Routes/friend.route.js';
 
 /**
  * @route using all routes
@@ -53,6 +54,7 @@ app.use("/api/user", userRouter)
 app.use("/api/messages", messageRouter)
 app.use("/api/post", PostRouter)
 app.use("/api/notification", notificationRouter)
+app.use("/api/friend", friendRouter)
 
 /**
  * @route test router
