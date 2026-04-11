@@ -36,6 +36,8 @@ app.use((req, _res, next) => {
     next();
 });
 
+import notificationRouter from './Routes/notification.route.js';
+
 /**
  * @route using all routes
  */
@@ -50,6 +52,7 @@ app.use("/api/ai", geminiRouter)
 app.use("/api/user", userRouter)
 app.use("/api/messages", messageRouter)
 app.use("/api/post", PostRouter)
+app.use("/api/notification", notificationRouter)
 
 /**
  * @route test router

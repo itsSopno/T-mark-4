@@ -11,6 +11,35 @@ export interface IUserData extends Document {
     Bio: String,
     googleId:String,
     coverImage:String,
+    isVerified:{
+        type:Boolean,
+        default:false
+    },
+    settings:{
+        type:Object,
+       default:{
+        theme:"dark",
+        notifications:{
+            email:true,
+            push:true,
+            sms:true
+        },
+        privacy:{
+            profileVisibility:"public",
+            messageRequests:true,
+            whoCanSeeMyPosts:"everyone",
+            whoCanSeeMyProfile:"everyone",
+            whoCanSeeMyEmail:"everyone",
+            whoCanSeeMyPhoneNumber:"everyone",
+            whoCanSeeMyAddress:"everyone",
+            whoCanSeeMyBio:"everyone",
+            whoCanSeeMyGoogleId:"everyone",
+            whoCanSeeMyCoverImage:"everyone",
+            whoCanSeeMyIsVerified:"everyone",
+            whoCanSeeMySettings:"everyone",
+        }
+       }
+    }
 
 }
 
@@ -54,6 +83,10 @@ const UserDataSchema = new Schema<IUserData>({
     coverImage: {
         type: String,
         required: false
+    },
+    isVerified:{
+        type:Boolean,
+        default:false
     }
 })
 
