@@ -8,6 +8,8 @@ export interface IUser extends Document {
     phoneNumber: Number;
     createdAt?: Date;
     updatedAt?: Date;
+    googleId: string;
+
 
 }
 const userSchema: Schema<IUser> = new Schema({
@@ -38,6 +40,10 @@ const userSchema: Schema<IUser> = new Schema({
     },
     phoneNumber: {
         type: Number,
+        required: false
+    },
+    googleId: {
+        type: String,
         required: false
     }
 
