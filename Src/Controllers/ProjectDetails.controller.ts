@@ -6,7 +6,7 @@ import ProjectDetail from "../Models/PortfolioProject.model.js";
  * @desc Fetch all portfolio projects
  * @route GET /api/project/all
  */
-export const getAllProjects = async (req: Request, res: Response) => {
+export const getAllProjects = async (_req: Request, res: Response) => {
     try {
         const projects = await ProjectDetail.find().sort({ createdAt: -1 });
         return res.status(200).json({
