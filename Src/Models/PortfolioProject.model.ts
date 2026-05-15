@@ -37,7 +37,7 @@ const projectDetailSchema = new Schema<IProjectDetails>({
         required:true
     },
     projectTags:{
-        type:String,
+        type:[String],
         required:true
     },
     projectStatus:{
@@ -57,7 +57,7 @@ const projectDetailSchema = new Schema<IProjectDetails>({
         required:true
     },
     Tech:{
-        type:String,
+        type:[String],
         required:true
     },
     
