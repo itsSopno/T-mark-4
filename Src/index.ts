@@ -14,6 +14,7 @@ import geminiRouter from './Routes/gemini.route.js';
 import userRouter from './Routes/totalUser.route.js';
 import messageRouter from './Routes/message.route.js';
 import PostRouter from './Routes/post.route.js';
+import projectRouter from './Routes/project.route.js';
 // Configure dotenv
 dotenv.config();
 
@@ -55,6 +56,7 @@ app.use("/api/messages", messageRouter)
 app.use("/api/post", PostRouter)
 app.use("/api/notification", notificationRouter)
 app.use("/api/friend", friendRouter)
+app.use("/api/project", projectRouter)
 
 /**
  * @route test router
