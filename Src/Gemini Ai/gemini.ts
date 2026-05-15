@@ -15,8 +15,8 @@ export const testGemini = async () => {
             contents: "Hello, how are you ?"
         });
         const text = result.text || result.candidates?.[0]?.content?.parts?.[0]?.text || "No text available";
-        console.log("✅ Gemini Response:", text);
+        console.log("Gemini Response:", text);
     } catch (err: any) {
-        console.error("❌ Gemini Test Error:", err.message || err);
+        console.error("Gemini Test Error:", err.message || err);
     }
 };
