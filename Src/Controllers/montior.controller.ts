@@ -70,7 +70,7 @@ export const getAllMonitors = async(req:Request, res:Response):Promise<Response>
                 { name: { $regex: searchTerm, $options: "i" } },
                 { description: { $regex: searchTerm, $options: "i" } }
             ]
-        }
+        }       
         const monitors = await Monitor.find(query);
         return res.status(200).json({ monitors });
     } catch (error) {
