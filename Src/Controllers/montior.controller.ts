@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import Monitor from '../Models/montior.model.js'
+import {Monitor} from '../Models/montior.model.js'
 
 /** 
  * @name createMonitorCollectionController
@@ -48,5 +48,33 @@ oldPrice:p.oldPrice?? 0,
     } catch (error) {
         console.error("Error creating monitor collection:", error);
         res.status(500).json({message:"Internal server error."});
+    }
+}
+
+/**
+ * @name getAllMonitors
+ * @desc get all monitor collection
+ * @acess public 
+ */
+
+export const getAllMonitors = async(req:Request, res:Response):Promise<Response> =>{
+    try{
+        const { category, brand, searchTerm } = req.query;
+        let query: any = {};
+
+        if(category) query.category = category;
+        if(brand) query.brand = brand;
+
+        if(searchTerm){
+            query.$or = [
+                { name: { $regex: searchTerm, $options: "i" } },
+                { description: { $regex: searchTerm, $options: "i" } }
+            ]
+        }
+        const monitors = await Monitor.find(query);
+        return res.status(200).json({ monitors });
+    } catch (error) {
+        console.error("Error fetching monitors:", error);
+        return res.status(500).json({ message: "Internal server error." });
     }
 }
