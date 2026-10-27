@@ -12,7 +12,7 @@ export const createMonitorCollectionController = async(req:Request, res:Response
         const processedProducts = products.map(p => ({
             name:p.name,
             price:p.price?? 22500,
-            
+
         }))
     }
 }
