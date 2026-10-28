@@ -44,3 +44,30 @@ export const createGaphicsCardCollectionController = async(req:Request, res:Resp
         res.status(500).json({message:"Internal server error."});
     }
 }
+
+/*** 
+ * @name getAllGraphicsCards
+ * @desc get all graphics card collection by this
+ * @access public
+*/
+
+export const getAllGraphicsCards = async(req:Request, res:Response):Promise<Response> =>{
+    try{
+        const {category, brand, searchTerm} = req.query;
+        let query:any = {};
+        if(category) query.category = category;
+        if(brand) query.brand = brand;
+        if(searchTerm){
+            query.$or = [
+                {name:{$regex:searchTerm, $options:"i"}},
+                {description:{$regex:searchTerm, $options:"i"}}
+            ]
+        }
+        const graphicsCards = await GraphicsCard.find(query);
+        return res.status(200).json({message:"Graphics cards fetched successfully.", graphicsCards});
+    }
+    catch(error){
+        console.error("Error fetching graphics cards:", error);
+        return res.status(500).json({message:"Internal server error."});
+    }
+}
