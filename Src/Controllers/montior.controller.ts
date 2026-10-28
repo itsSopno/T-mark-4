@@ -78,3 +78,23 @@ export const getAllMonitors = async(req:Request, res:Response):Promise<Response>
         return res.status(500).json({ message: "Internal server error." });
     }
 }
+
+/**
+ * @name getSingleMonitor
+ * @desc get a single monitor
+ * @acess public
+ */
+
+export const getSingleMonitor = async(req:Request,res:Response):Promise<Response> =>{
+    try{
+        const {id} = req.params;
+        const monitor = await Monitor.findById(id);
+        if(!monitor){
+            return res.status(404).json({message:"Monitor not found."});
+        }
+        return res.status(200).json({monitor});
+    } catch (error) {
+        console.error("Error fetching monitor:", error);
+        return res.status(500).json({ message: "Internal server error." });
+    }
+}
