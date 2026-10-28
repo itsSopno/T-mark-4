@@ -6,3 +6,6 @@ import { authUser } from "../middleware/auth.middleware.js";
 const graphicsRouter:Router = Router();
 graphicsRouter.post("/", authUser, isAdmin, createGaphicsCardCollectionController);
 graphicsRouter.get("/", getAllGraphicsCards);
+graphicsRouter.get("/:id", getAllGraphicsCards);
+
+export default graphicsRouter
