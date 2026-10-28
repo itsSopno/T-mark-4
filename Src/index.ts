@@ -15,6 +15,7 @@ import userRouter from './Routes/totalUser.route.js';
 import messageRouter from './Routes/message.route.js';
 import PostRouter from './Routes/post.route.js';
 import projectRouter from './Routes/project.route.js';
+import monitorRouter from './Routes/monitor.routes.js';
 // Configure dotenv
 dotenv.config();
 
@@ -57,6 +58,7 @@ app.use("/api/post", PostRouter)
 app.use("/api/notification", notificationRouter)
 app.use("/api/friend", friendRouter)
 app.use("/api/project", projectRouter)
+app.use("/api/monitor", monitorRouter)
 
 /**
  * @route test router
