@@ -1,0 +1,101 @@
+import {Schema, model} from 'mongoose';
+
+export interface IGraphicsCard {
+    name:string;
+    price:number;
+    oldPrice?:number;
+    image:string;
+    iamges:string[];
+    stock:number;
+    brand:string;
+    model:string;
+    vramSize:number;
+    vramType:string;
+    coreClock:number;
+    boostClock:number;
+    powerConnectors:string[];
+    displayOutputs:string[];
+    rayTracing:boolean;
+    dlss:boolean;
+    description:string;
+    isFeatured:boolean;
+    port:string;
+}
+
+const graphicsCardSchema = new Schema<IGraphicsCard>({
+    name:{
+        type:String,
+        required:true
+    },
+    price:{
+        type:Number,
+        required:true
+    },
+    oldPrice:{
+        type:Number
+    },
+    image:{
+        type:String,
+        required:true
+    },
+    iamges:{
+        type:[String],
+        default:[]
+    },
+    stock:{
+        type:Number,
+        default:100
+    },
+    brand:{
+        type:String,
+        required:true
+    },
+    model:{
+        type:String,
+        required:true
+    },
+    vramSize:{
+        type:Number,
+        required:true
+    },
+    vramType:{
+        type:String,    
+    required:true
+    },
+    coreClock:{
+        type:Number,    
+    required:true
+    },
+    boostClock:{
+        type:Number,
+    required:true
+    },
+    powerConnectors:{
+        type:[String],
+    },
+    displayOutputs:{
+        type:[String],
+    },
+    rayTracing:{
+        type:Boolean,
+    },  
+    dlss:{
+        type:Boolean,
+    },
+    description:{
+        type:String,
+        required:true
+    },
+    isFeatured:{
+        type:Boolean,
+        default:false
+    },
+    port:{
+        type:String,
+        required:true
+    }
+},{
+    timestamps:true
+})
+
+export const GraphicsCard = model<IGraphicsCard>('GraphicsCard', graphicsCardSchema)
