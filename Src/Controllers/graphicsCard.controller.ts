@@ -71,3 +71,23 @@ export const getAllGraphicsCards = async(req:Request, res:Response):Promise<Resp
         return res.status(500).json({message:"Internal server error."});
     }
 }
+
+/**
+ * @name getSingleGraphicsCard
+ * @desc get a single graphics card
+ * @access public
+ */
+
+export const getSingleGraphicsCard = async(req:Request, res:Response):Promise<Response> =>{
+    try{
+        const {id} = req.params;
+        const graphicsCard = await GraphicsCard.findById(id);
+        if(!graphicsCard){
+            return res.status(404).json({message:"Graphics card not found."});
+        }
+        return res.status(200).json({message:"Graphics card fetched successfully.", graphicsCard});
+    } catch (error) {
+        console.error("Error fetching graphics card:", error);
+        return res.status(500).json({message:"Internal server error."});
+    }
+}
