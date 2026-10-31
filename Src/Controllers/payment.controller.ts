@@ -4,7 +4,7 @@ import PaymentModel from "../Models/payment.model.js";
 // @desc    Initiate a new payment
 // @route   POST /api/payment/initiate
 // @access  Private
-export const initiatePayment = async (req: Request, res: Response): Promise<any> => {
+export const initiatePayment = async (req: Request, res: Response): Promise<Response> => {
     try {
         const { userEmail, userImage, items, totalAmount, transactionId } = req.body;
 
@@ -36,11 +36,15 @@ export const initiatePayment = async (req: Request, res: Response): Promise<any>
                     transactionId
                 })
             });
-            const externalData = await externalRes.json();
-            console.log("External payment API response:", externalData);
+            if (!externalRes.ok) {
+                console.error("External payment server returned non-OK status:", externalRes.status);
+            } else {
+                const externalData = await externalRes.json();
+                console.log("External payment API response:", externalData);
+            }
         } catch (fetchErr) {
             console.error("Failed to forward payment to external server:", fetchErr);
-            // Optionally decide if this should block the success response or proceed
+            // Payment record saved locally — external forward failed but we continue
         }
 
         return res.status(201).json({
@@ -57,9 +61,13 @@ export const initiatePayment = async (req: Request, res: Response): Promise<any>
 // @desc    Verify payment status
 // @route   POST /api/payment/verify
 // @access  Private
-export const verifyPayment = async (req: Request, res: Response): Promise<any> => {
+export const verifyPayment = async (req: Request, res: Response): Promise<Response> => {
     try {
         const { transactionId, status } = req.body;
+
+        if (!transactionId || !status) {
+            return res.status(400).json({ success: false, message: "transactionId and status are required" });
+        }
 
         const payment = await PaymentModel.findOneAndUpdate(
             { transactionId },
@@ -87,7 +95,7 @@ export const verifyPayment = async (req: Request, res: Response): Promise<any> =
  * @route GET /api/payment/getPaymentdata
  * @access Private
  */
-export const getPaymentdataController = async (_req: Request, res: Response): Promise<any> => {
+export const getPaymentdataController = async (_req: Request, res: Response): Promise<Response> => {
     try {
         const payments = await PaymentModel.find();
         return res.status(200).json({
@@ -107,7 +115,7 @@ export const getPaymentdataController = async (_req: Request, res: Response): Pr
  * @route PUT/api/payment/accept/:id
  * @access Private
  */
-export const updatePaymentStatus = async (req: Request, res: Response): Promise<any> => {
+export const updatePaymentStatus = async (req: Request, res: Response): Promise<Response> => {
     try {
         const { id } = req.params; // URL theke payment ID niben
         const { status } = req.body; // Body theke 'completed', 'rejected' etc niben
@@ -151,7 +159,7 @@ export const updatePaymentStatus = async (req: Request, res: Response): Promise<
  * @route DELETE/api/payment/:id
  * @acess Private;
  */
-export const paymentDeleteController = async (req: Request, res: Response): Promise<any> => {
+export const paymentDeleteController = async (req: Request, res: Response): Promise<Response> => {
     try {
         const { id } = req.params;
         const payment = await PaymentModel.findByIdAndDelete(id);

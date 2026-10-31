@@ -15,7 +15,7 @@ export const createGaphicsCardCollectionController = async(req:Request, res:Resp
             price:p.price?? 300,
             oldPrice:p.oldPrice?? 0,
             image:p.image,
-            iamges:p.iamges?? [],
+            images:p.images?? [],
             stock:p.stock?? 100,
             brand:p.brand?? "Tech Gear",
             model:p.model?? "GTX 1080",

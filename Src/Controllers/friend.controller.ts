@@ -44,7 +44,7 @@ export const sendFriendRequest = async (req: Request, res: Response): Promise<Re
         await NotificationModel.create({
             recipientId: receiverEmail,
             senderId: senderEmail,
-            type: "LIKE", 
+            type: "FRIEND_REQUEST",
             title: "New Friend Request",
             content: `${sender.name} wants to be your friend.`
         });
@@ -89,7 +89,7 @@ export const acceptFriendRequest = async (req: Request, res: Response): Promise<
         await NotificationModel.create({
             recipientId: senderEmail,
             senderId: userEmail,
-            type: "COMMENT",
+            type: "FRIEND_ACCEPT",
             title: "Request Accepted",
             content: `${user.name} accepted your friend request.`
         });

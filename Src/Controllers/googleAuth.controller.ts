@@ -88,7 +88,7 @@ export const getMe = async (req: Request, res: Response): Promise<Response | voi
             }
         });
     } catch (error) {
-        res.status(500).json({ message: "Internal Server Error" });
+        return res.status(500).json({ message: "Internal Server Error" });
     }
 };
 
@@ -111,7 +111,7 @@ export const LogoutController = async (_req: Request, res: Response): Promise<Re
             message: "Logged out successfully! See you again, Lando fan! 🏎️"
         });
     } catch (error) {
-        res.status(500).json({ message: "Logout failed" });
+        return res.status(500).json({ message: "Logout failed" });
     }
 };
 
