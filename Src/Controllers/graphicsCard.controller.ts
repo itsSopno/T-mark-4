@@ -7,7 +7,7 @@ import {GraphicsCard} from '../Models/graphisCard.model.js';
  * @acess private
  * 
  */
-export const createGaphicsCardCollectionController = async(req:Request, res:Response) =>{
+export const createGaphicsCardCollectionController = async(req:Request, res:Response):Promise<Response> =>{
     try{
         const products = Array.isArray(req.body)? req.body:[req.body];
         const processedProducts = products.map(p =>({
@@ -38,10 +38,10 @@ export const createGaphicsCardCollectionController = async(req:Request, res:Resp
             }
         }
         const graphicsCards = await GraphicsCard.create(processedProducts);
-        res.status(201).json({message:"Graphics cards created successfully.", graphicsCards});
+        return res.status(201).json({message:"Graphics cards created successfully.", graphicsCards});
     } catch (error) {
         console.error("Error creating graphics card collection:", error);
-        res.status(500).json({message:"Internal server error."});
+        return res.status(500).json({message:"Internal server error."});
     }
 }
 
