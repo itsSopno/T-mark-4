@@ -6,7 +6,7 @@ import {Monitor} from '../Models/Montior.model.js'
  * @desc create monitor collection
  * @access public
  */
-export const createMonitorCollectionController = async(req:Request, res:Response) => {
+export const createMonitorCollectionController = async(req:Request, res:Response): Promise<Response> => {
     try{
         const products = Array.isArray(req.body) ? req.body:[req.body];
         const processedProducts = products.map(p => ({
@@ -44,10 +44,10 @@ oldPrice:p.oldPrice?? 0,
             }
         }
         const monitors = await Monitor.create(processedProducts);
-        res.status(201).json({message:"Monitors created successfully.", monitors});
+        return res.status(201).json({message:"Monitors created successfully.", monitors});
     } catch (error) {
         console.error("Error creating monitor collection:", error);
-        res.status(500).json({message:"Internal server error."});
+        return res.status(500).json({message:"Internal server error."});
     }
 }
 
