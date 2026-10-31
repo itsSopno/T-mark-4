@@ -5,13 +5,12 @@ import {
     rejectFriendRequest, 
     unfriend 
 } from "../Controllers/friend.controller.js";
-import { authUser } from "../middleware/auth.middleware.js";
 
 const friendRouter: Router = Router();
 
-friendRouter.post("/request/send", authUser, sendFriendRequest);
-friendRouter.post("/request/accept", authUser, acceptFriendRequest);
-friendRouter.post("/request/reject", authUser, rejectFriendRequest);
-friendRouter.delete("/unfriend", authUser, unfriend);
+friendRouter.post("/request/send", sendFriendRequest);
+friendRouter.post("/request/accept", acceptFriendRequest);
+friendRouter.post("/request/reject", rejectFriendRequest);
+friendRouter.delete("/unfriend", unfriend);
 
 export default friendRouter;
