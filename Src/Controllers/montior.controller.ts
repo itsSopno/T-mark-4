@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import {Monitor} from '../Models/Montior.model.js'
+import {Monitor} from '../Models/Monitor.model.js'
 
 /** 
  * @name createMonitorCollectionController
