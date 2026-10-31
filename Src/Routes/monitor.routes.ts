@@ -1,10 +1,9 @@
 import Router from "express";
-import {createMonitorCollectionController, getAllMonitors, getSingleMonitor} from "../Controllers/montior.controller.js"
-import {isAdmin} from "../middleware/post.middleware.js"
-import {authUser} from "../middleware/auth.middleware.js"
+import { createMonitorCollectionController, getAllMonitors, getSingleMonitor } from "../Controllers/montior.controller.js"
+
 const monitorRouter = Router();
 
-monitorRouter.post("/", authUser, isAdmin, createMonitorCollectionController);
+monitorRouter.post("/", createMonitorCollectionController);
 monitorRouter.get("/", getAllMonitors);
 monitorRouter.get("/:id", getSingleMonitor);
 

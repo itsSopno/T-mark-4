@@ -1,11 +1,10 @@
-import {Router} from "express";
-import { createGaphicsCardCollectionController, getAllGraphicsCards } from "../Controllers/graphicsCard.controller.js";
-import { isAdmin } from "../middleware/post.middleware.js";
-import { authUser } from "../middleware/auth.middleware.js";
+import { Router } from "express";
+import { createGaphicsCardCollectionController, getAllGraphicsCards, getSingleGraphicsCard } from "../Controllers/graphicsCard.controller.js";
 
-const graphicsRouter:Router = Router();
-graphicsRouter.post("/", authUser, isAdmin, createGaphicsCardCollectionController);
+const graphicsRouter: Router = Router();
+
+graphicsRouter.post("/", createGaphicsCardCollectionController);
 graphicsRouter.get("/", getAllGraphicsCards);
-graphicsRouter.get("/:id", getAllGraphicsCards);
+graphicsRouter.get("/:id", getSingleGraphicsCard);
 
 export default graphicsRouter
